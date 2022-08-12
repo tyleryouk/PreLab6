@@ -1,0 +1,64 @@
+//Tyler Youk - Library Account Class
+//Records whether the patron has any overdue material and how much money, in fines, has been assessed to the patron
+public class LibraryAccount extends Account {
+  
+  //fields
+  private double bFineSize = 0.0; //book fine
+  private double iFineSize = 0.0; //items fine
+  private int daysOverdue = 0; //days overdue * size of fine = fine
+  
+  //constructors
+  //the first constructor takes a single String input that is the account number.
+  LibraryAccount(String inputANum){
+    super(inputANum); 
+  }
+  //the second constructor takes four inputs: a String that is the account number, an int that is the balance limit, a double that is the book fine, and a double that is the reserved items fine. 
+  LibraryAccount(String inputANum, int inputBLim, double inputBFine, double inputIFine){
+    super(inputANum, inputBLim); 
+    bFineSize = inputBFine;
+    iFineSize = inputIFine;
+  }
+ 
+  //methods
+  //Takes a single double value as input and returns nothing. The input value will be the size of the fine that is assessed each day a book is overdue.
+  public void setBookFine(double s){
+     bFineSize = s;
+  }
+  
+  //Takes no input and returns a double. Returns the amount that will be fined for each day a book is overdue.
+  public double getBookFine(){
+    return bFineSize; 
+  }
+  
+  //Takes a single double value as input and returns nothing. The input value will be the size of the fine that is assessed each day a reserved item is overdue.
+  public void setReserveFine(double rF){
+     iFineSize = rf;
+  }
+  //Takes no input and returns a double. Returns the amount that will be fined for each day a reserved item is overdue.
+  public double getReserveFine(){
+    return iFineSize; 
+  }
+  /*
+  
+
+
+incrementOverdueBooks
+Takes no input and returns nothing. Increases by one the number of overdue books on the account.
+decrementOverdueBooks
+Takes no input and returns nothing. Decreases by one the number of overdue books on the account. Does not decrease the count below zero.
+getNumberOverdueBooks
+Takes no input and returns an int. Returns the number of overdue books on the account.
+incrementOverdueReserve
+Takes no input and returns nothing. Increases by one the number of overdue reserved items on the account.
+decrementOverdueReserve
+Takes no input and returns nothing. Decreases by one the number of overdue reserved items on the account. Does not decrease the count below zero.
+getNumberOverdueReserve
+Takes no input and returns an int. Returns the number of overdue reserved items on the account.
+canBorrow
+Takes no input and returns a boolean. Returns true if the account's balance is equal or less than the account's balance limit. Returns false otherwise.
+endOfDay
+Takes no input and returns nothing. Increases the account's balance by the product of the number of overdue books and the book fine, and increases the account's balance by the product of the number of overdue reserved items and the reserved items fine.
+  */
+  //other methods - main method for testing
+  
+}

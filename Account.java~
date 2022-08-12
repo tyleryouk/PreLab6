@@ -1,0 +1,78 @@
+//Tyler Youk - Class Account to keep track of a person's balance and balance limit
+//fields then constructors then methods
+public class Account {
+  
+  //instance fields to keep track of an account number, the current balance for the account, and a balance limit
+  private String aNum; //will never change, initializes when called
+  private double balance = 0.0;
+  private double balanceLimit = 0.0;
+  
+  //constructor - single arguement, also prints starting values
+  Account(String inputANum, int inputBL){
+    aNum = inputANum;
+    balanceLimit = (double)inputBL;
+    System.out.println("account initialized");
+    System.out.print("Account: "+ aNum);
+    System.out.print("Balance: "+ balance + " ");
+    System.out.println("Balance Limit: "+ balanceLimit);
+  }
+  //constructor - two arguement, also prints starting values 
+  Account(String inputANum){
+    aNum = inputANum;
+    System.out.println("account initialized");
+    System.out.print("Account: "+ aNum + " ");
+    System.out.print("Balance: "+ balance + " ");
+    System.out.println("Balance Limit: "+ balanceLimit);
+  }
+  
+  //methods
+  //Takes no input and returns a String. Returns the account number of the account. (The account number will never change.)
+  public String getAccountNumber(){
+    return(aNum);
+  }
+  
+  //Takes no input and returns a double. Returns the current balance of the account.
+  public double getBalance(){
+    return(balance); 
+  }
+  
+  //Takes a single double value as input and returns nothing. The balance is increased by the input amount.
+  public void charge(double c){
+    balance = balance + c;
+  }
+
+  //Takes a single double value as input and returns nothing. The balance is decreased by the input amount.
+  public void credit(double cc){
+    balance = balance - cc; 
+  }
+
+  //Takes a single int value as input and returns nothing. Changes the balance limit to be the input value.
+  public void setBalanceLimit(int bl){
+    balanceLimit = (double)bl; 
+  }
+  
+  //Takes no input and returns an int. Returns the balance limit of the account.
+  public double getBalanceLimit(){
+    return balanceLimit; 
+  }
+  
+  //other methods - main method calling both constructors for testing
+   public static void main(String[] args){
+     Account Tyler = new Account("T1140"); //should print account # and all starting values
+     System.out.println(Tyler.getAccountNumber()); //should print T1140
+     Tyler.charge(3.44); 
+     System.out.println(Tyler.getBalance()); //should print a returned value of 3.44
+     Tyler.credit(2.0);
+     System.out.println(Tyler.getBalance()); //should print a returned value of 1.44
+     Tyler.setBalanceLimit(50);
+     System.out.println(Tyler.getBalanceLimit()); //should print 50.0, in this class any balance or balance limit goes
+                                                   //library account will build off this to create fines for overdue balances etc
+     
+     System.out.println("Test"); //dividor, only Tyler2 now
+     Account Tyler2 = new Account("T2240", 300); //should print account # and all starting values 
+     System.out.println(Tyler2.getAccountNumber()); //should print T2240
+     Tyler2.setBalanceLimit(30);
+     System.out.println(Tyler2.getBalanceLimit()); //should print 30.0
+    //all methods tested with various inputs 
+  }
+}

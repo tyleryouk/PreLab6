@@ -1,0 +1,19 @@
+/**
+ * Auto Generated Java Class.
+ */
+public class PreLab5 {
+  
+  //Write a while loop that computes the sum of the first 10 positive integers.
+  //Write a for loop that computes the sum the first 10 positive integers.
+  
+  //For each loop, you should use two variables. One that runs through the first 10 positive integers, and one that stores the result of the computation.
+   //To test your code, what is the sum of the first 10 positive integers?
+  
+  private int place = 0;
+  private int sum = 0;
+  while(place < 10){
+   sum = sum + place;
+   place++;
+   System.out.println(place);
+  }
+}

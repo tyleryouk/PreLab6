@@ -1,0 +1,161 @@
+//Tyler Youk - Student Account
+public class StudentAccount extends Account {
+  
+  //fields
+    private String name = "";
+    private String address = "";
+    LibraryAccount studentLibraryAccount; //initalize in set 
+    CreditAccount studentTuitionAccount; //initalize in set 
+    CreditAccount studentDiningAccount; //initalize in set
+    
+    private double refundAmount = 0.0;
+    
+  //constructors
+  //The StudentAccount should have a single constructor that takes two String values as input. The first is the account number and the second is the account owner's name.
+    public StudentAccount(String in1, String in2){
+      super(in1);
+      name = in2;
+    }
+      
+  //methods
+  //Takes a single input that is a String value and returns nothing. Changes the account owner's name to the input value.
+  public void setName(String n){
+     name = n;
+  }
+  
+  //Takes no input and returns a String value. Returns the account owner's name.
+  public String getName(){
+    return name; 
+  }
+
+  //Takes a single input that is a String value and returns nothing. Changes the account owner's address to the input value.
+  public void setAddress(String a){
+     address = a;
+  }
+
+  //Takes no input and returns a String value. Returns the account owner's address.
+  public String getAddress(){
+    return address; 
+  }
+
+  //Takes a single input that is a LibraryAccount value and returns nothing. 
+  //Changes the library account associated with this account to the input value. 
+  //There does not have to be a library account associated with this account so the input value may be null.
+  public void setLibraryAccount(LibraryAccount a){
+     a = new LibraryAccount(""); //single constructor, account # empty
+     studentLibraryAccount = a;
+  }
+
+   //Takes no input and returns a LibraryAccount value. Returns the library account associated with this account.
+  public LibraryAccount getLibraryAccount(){
+    return studentLibraryAccount;
+  }
+
+   //Takes a single input that is a CreditAccount value and returns nothing. 
+   //Changes the tuition account associated with this account to the input value. There does not have to be a tuition account associated with this account so the input value may be null.
+  public void setTuitionAccount(CreditAccount c){
+    c = new CreditAccount("", 0);
+    studentTuitionAccount = c;
+  }
+   
+   //Takes no input and returns a CreditAccount value. Returns the tuition account associated with this account.
+  public CreditAccount getTuitionAccount(){
+    return studentTuitionAccount; 
+  }
+
+  //Takes a single input that is a CreditAccount value and returns nothing
+  //Changes the dining account associated with this account to the input value. There does not have to be a dining account associated with this account so the input value may be null.
+  public void setDiningAccount(CreditAccount d){
+    d = new CreditAccount("", 0);
+    studentDiningAccount = d;
+  }
+  
+  //Takes no input and returns a CreditAccount value. Returns the dining account associated with this account.
+  public CreditAccount getDiningAccount(){
+    return studentDiningAccount; 
+  }
+  
+  //getBalance: the getBalance method of StudentAccount should sum the balances of the library account, tuition account, and dining account that are associated with this account (if those accounts exist).
+  // The method should then subtract the account's refund amount from this sum and return that value.
+  public double getBalance(){
+    double sBalance = 0.0;
+    boolean notNullL = (studentLibraryAccount != null);
+    boolean notNullT = (studentTuitionAccount != null);
+    boolean notNullD = (studentDiningAccount != null);
+      if(notNullL == true) {
+      sBalance = sBalance + studentLibraryAccount.getBalance();
+      }
+      if(notNullT == true){
+      sBalance = sBalance + studentTuitionAccount.getBalance();
+      } 
+      if(notNullD == true){
+      sBalance = sBalance + studentDiningAccount.getBalance();  
+      }
+    sBalance = sBalance - refundAmount;
+    return sBalance;
+     
+  }
+  
+  
+  //first subtract the input amount by the accounts's refund amount. 
+  //If this difference is positive and the tuition account exists, the tuition account's balance should be increased by the difference. 
+  //Otherwise, the account's refund amount should be set to the negation of this difference.
+  public void charge(double c){
+      double difference = c - refundAmount; //subtract the input amount by the account's refund amount
+      //positive = charge is greater, negative = charge is less than refund
+      
+      if(difference >= 0 && (studentTuitionAccount != null)){ //if charge is greater than refund amount, charge adds to tuition account balance
+        studentTuitionAccount.credit(difference); //tuition account's balance should be increased by the refund amount left
+                                                  //tuition account balance represents how much tuition needs to be paid off
+      }  else { //if refund amount can pay it, then use refund amount
+      refundAmount = -(difference); //same thing as refundAmount - c
+     }
+    
+  }
+  
+  //credit: the credit method of StudentAccount processes a payment to the student account,
+  //and the payment should be used to decrease the balances of the associated accounts in the following order:
+  // tuition, dining, library (if they exist). That is, you first apply the payment to reduce the tuition account balance.
+  //If there is any money left after reducing the tuition account, you reduce the dining account balance next and then the library account balance.
+  // If after reducing each existing account there is money left over, it should be added to the student account's refund amount. 
+  //The total amount you apply to the associated accounts' balances should not exceed the input to this method.
+  public void credit(double c){
+    while(c > 0){
+      
+      double payableTuition = (studentTuitionAccount.getMonthlyPayment() - studentTuitionAccount.getAmountPaidThisMonth()); //amount that can be paid by credit
+      if((studentTuitionAccount != null) && payableTuition >= c)){ //filling student Tuition account first, true if credit fulfills (balance - monthly payment)
+          studentTuitionAccount.credit(-c); //In Credit account, credit() increases.  Want to decrease so we use negative credit(-)
+          c = 0;
+      }  else if((studentTuitionAccount != null) && ((studentTuitionAccount.getBalance() - studentTuitionAccount.getMonthlyPayment()) < c)){ //some left over
+          c = c - studentTuitionAccount.getBalance(); //c is now reducted by TuitionAccount balance
+          studentTuitionAccount.credit(studentTuitionAccount.getMonthlyPayment()); //tuition account should be at monthly payment
+      }
+       //going on to fill dining with rest of c
+      if((studentDiningAccount != null) && (studentDiningAccount.getBalance() >= c)){ 
+          studentDiningAccount.credit(-c); 
+          c = 0;
+      }  else if((studentDiningAccount != null) && (studentTuitionAccount.getBalance() < c)){ //some left over
+          c = c - studentDiningAccount.getBalance(); //c is now reducted by DiningAccount balance
+          studentDiningAccount.credit(studentDiningAccount.getBalance()); //DiningAccount should be zero
+      }
+      
+      //going to fill Library with rest of c
+      if((studentLibraryAccount != null) && (studentLibraryAccount.getBalance() >= c)){ 
+          studentLibraryAccount.credit(-c); 
+          c = 0;
+      }  else if((studentLibraryAccount != null) && (studentLibraryAccount.getBalance() < c)){ //some left over
+          c = c - studentLibraryAccount.getBalance(); //c is now reducted by DiningAccount balance
+          studentLibraryAccount.credit(studentLibraryAccount.getBalance()); //DiningAccount should be zero
+      }
+     //end of while loop
+      break;
+    } 
+  }
+
+  //For the tuition and dining accounts, the account's balance should only be decreased until the account's amount paid this month equals the monthly payment.
+  //For the library account, the account's balance should not be reduced below zero.
+  
+  //other methods - main method to test
+  
+  
+}

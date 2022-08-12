@@ -1,0 +1,20 @@
+/**
+ * Auto Generated Java Class.
+ */
+public class CreditAccount extends Account {
+  
+  //fields
+  private double iRate;
+  
+  //constructors
+  //The CreditAccount should have a single constructor that takes 2 inputs: a String that is the account number and a double that is the interest rate.
+  CreditAccount(String inputANum, double iR){
+    super(inputANum); 
+    iRate = iR;
+  }
+  
+  //methods
+  
+  //other methods - main method for testing
+  
+}
